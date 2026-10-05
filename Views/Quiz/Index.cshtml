@@ -1,0 +1,69 @@
+﻿@model IEnumerable<QuizMgnt.Models.Quiz>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Quiz List</h2>
+
+@using (Html.BeginForm("Index", "Quiz", FormMethod.Get, new { @class = "form-inline", style = "margin-bottom: 20px;" }))
+{
+    <div class="form-group" style="margin-right: 10px;">
+        <label for="cat_id">Filter by Category:</label>
+        @Html.DropDownList("cat_id", new SelectList((IEnumerable<SelectListItem>)ViewBag.Cat_list, "Value", "Text", ViewBag.SelectedCatId), "---Select Quiz Category---", new { @class = "form-control" })
+    </div>
+
+    <div class="form-group" style="margin-right: 10px;">
+        <label for="quiz_title">Filter by Title:</label>
+        @Html.TextBox("quiz_title", (string)ViewBag.SearchTitle, new { @class = "form-control", placeholder = "Enter title..." })
+    </div>
+
+    <button type="submit">Search</button>
+    @Html.ActionLink("Reset", "Index", "Quiz", null, new { @class = "btn btn-default" })
+}
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.quiz_id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.quiz_title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.cat_type)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.total_marks)
+        </th>
+        <th>Actions</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.quiz_id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.quiz_title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.cat_type)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.total_marks)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.quiz_id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.quiz_id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.quiz_id })
+            </td>
+        </tr>
+    }
+</table>
